@@ -30,6 +30,7 @@ RUN apt-get update \
 
   # clean up
   && rm -f java.tar.gz \
+  && rm -r jce_policy-8.zip \
   && rm -rf /opt/jdk/*src.zip \
     /opt/jdk/lib/missioncontrol \
     /opt/jdk/lib/visualvm \
