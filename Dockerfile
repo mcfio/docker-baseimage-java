@@ -35,6 +35,10 @@ RUN apk upgrade --update \
   && gunzip -c /tmp/java.tar.gz | tar -xf - -C /opt \
   && ln -s /opt/jdk1.${JAVA_VERSION_MAJOR}.0_${JAVA_VERSION_MINOR} /opt/jdk \
   
+  # Remove non-JRE components
+  && find /opt/jdk/ -maxdepth 1 -mindepth 1 | grep -v jre | xargs rm -rf \
+  && cd /opt/jdk/ && ln -s ./jre/bin ./bin \
+  
   # Install JCE Policy
   && curl -jkLH "Cookie: oraclelicense=accept-securebackup-cookie" -o /tmp/jce_policy-8.zip http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip \
   && unzip /tmp/jce_policy-8.zip -d /tmp \
