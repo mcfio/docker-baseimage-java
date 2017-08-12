@@ -39,7 +39,10 @@ RUN apk upgrade --update \
   && curl -jkLH "Cookie: oraclelicense=accept-securebackup-cookie" -o /tmp/jce_policy-8.zip http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip \
   && unzip /tmp/jce_policy-8.zip -d /tmp \
   && cp /tmp/UnlimitedJCEPolicyJDK8/*.jar /opt/jdk/jre/lib/security/ \
-
+  
+  # Force Java to honor DNS caching timeouts
+  && sed -i s/#networkaddress.cache.ttl=-1/networkaddress.cache.ttl=10/ $JAVA_HOME/jre/lib/security/java.security \
+  
   # clean up
   && apk del --purge \
     build-dependencies \
